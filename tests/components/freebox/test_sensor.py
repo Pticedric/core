@@ -42,6 +42,28 @@ async def test_network_speed(
     assert hass.states.get("sensor.freebox_server_r2_upload_speed").state == "432.1"
 
 
+async def test_ftth_power(hass: HomeAssistant, router: Mock) -> None:
+    """Test FTTH optical power sensors."""
+    await setup_platform(hass, SENSOR_DOMAIN)
+
+    assert hass.states.get("sensor.freebox_server_r2_ftth_receive_power").state == "-21.5"
+    assert hass.states.get("sensor.freebox_server_r2_ftth_transmit_power").state == "-13.0"
+
+
+async def test_ftth_power_not_created_for_non_ftth(
+    hass: HomeAssistant, router: Mock
+) -> None:
+    """Test FTTH optical power sensors are not created for non-FTTH connections."""
+    connection_status = deepcopy(DATA_CONNECTION_GET_STATUS)
+    connection_status["media"] = "xdsl"
+    router().connection.get_status.return_value = connection_status
+
+    await setup_platform(hass, SENSOR_DOMAIN)
+
+    assert hass.states.get("sensor.freebox_server_r2_ftth_receive_power") is None
+    assert hass.states.get("sensor.freebox_server_r2_ftth_transmit_power") is None
+
+
 async def test_call(
     hass: HomeAssistant, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:

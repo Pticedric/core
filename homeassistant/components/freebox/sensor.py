@@ -13,6 +13,7 @@ from homeassistant.const import (
     PERCENTAGE,
     REVOLUTIONS_PER_MINUTE,
     EntityCategory,
+    SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfDataRate,
     UnitOfTemperature,
 )
@@ -61,6 +62,25 @@ DISK_PARTITION_SENSORS: tuple[SensorEntityDescription, ...] = (
         key="partition_free_space",
         translation_key="partition_free_space",
         native_unit_of_measurement=PERCENTAGE,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+)
+
+FTTH_POWER_SENSORS: tuple[SensorEntityDescription, ...] = (
+    SensorEntityDescription(
+        key="ftth_rx_power",
+        translation_key="ftth_rx_power",
+        device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    SensorEntityDescription(
+        key="ftth_tx_power",
+        translation_key="ftth_tx_power",
+        device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
 )
@@ -118,6 +138,11 @@ async def async_setup_entry(
 
     entities.extend(
         [FreeboxSensor(router, description) for description in CONNECTION_SENSORS]
+    )
+    entities.extend(
+        FreeboxSensor(router, description)
+        for description in FTTH_POWER_SENSORS
+        if description.key in router.sensors
     )
     entities.extend(
         [FreeboxCallSensor(router, description) for description in CALL_SENSORS]

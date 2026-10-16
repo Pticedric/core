@@ -43,6 +43,12 @@
       "missed": {
         "name": "Missed calls"
       },
+      "ftth_rx_power": {
+        "name": "FTTH receive power"
+      },
+      "ftth_tx_power": {
+        "name": "FTTH transmit power"
+      },
       "partition_free_space": {
         "name": "{partition} free space"
       },

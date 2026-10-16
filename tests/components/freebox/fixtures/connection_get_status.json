@@ -8,6 +8,10 @@
   "ipv6": "2a01:e35:ffff:ffff::1",
   "bandwidth_down": 1000000000,
   "media": "ftth",
+  "ftth": {
+    "sfp_pwr_rx": -2150,
+    "sfp_pwr_tx": -1300
+  },
   "state": "up",
   "bytes_down": 2355966141297,
   "ipv4": "82.67.00.00"

@@ -239,6 +239,14 @@ class FreeboxRouter:
         connection_datas: dict[str, Any] = await self._api.connection.get_status()
         for sensor_key in CONNECTION_SENSORS_KEYS:
             self.sensors_connection[sensor_key] = connection_datas[sensor_key]
+        if connection_datas["media"] == "ftth":
+            ftth_data = connection_datas.get("ftth", {})
+            for api_key, sensor_key in (
+                ("sfp_pwr_rx", "ftth_rx_power"),
+                ("sfp_pwr_tx", "ftth_tx_power"),
+            ):
+                if (power := ftth_data.get(api_key)) is not None:
+                    self.sensors_connection[sensor_key] = power / 100
 
         self._attrs = {
             "IPv4": connection_datas.get("ipv4"),
