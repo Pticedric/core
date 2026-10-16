@@ -40,14 +40,14 @@
       }
     },
     "sensor": {
-      "missed": {
-        "name": "Missed calls"
-      },
       "ftth_rx_power": {
         "name": "FTTH receive power"
       },
       "ftth_tx_power": {
         "name": "FTTH transmit power"
+      },
+      "missed": {
+        "name": "Missed calls"
       },
       "partition_free_space": {
         "name": "{partition} free space"

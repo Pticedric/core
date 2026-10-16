@@ -46,8 +46,12 @@ async def test_ftth_power(hass: HomeAssistant, router: Mock) -> None:
     """Test FTTH optical power sensors."""
     await setup_platform(hass, SENSOR_DOMAIN)
 
-    assert hass.states.get("sensor.freebox_server_r2_ftth_receive_power").state == "-21.5"
-    assert hass.states.get("sensor.freebox_server_r2_ftth_transmit_power").state == "-13.0"
+    assert (
+        hass.states.get("sensor.freebox_server_r2_ftth_receive_power").state == "-21.5"
+    )
+    assert (
+        hass.states.get("sensor.freebox_server_r2_ftth_transmit_power").state == "-13.0"
+    )
 
 
 async def test_ftth_power_not_created_for_non_ftth(
